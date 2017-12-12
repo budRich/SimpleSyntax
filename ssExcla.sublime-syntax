@@ -1,0 +1,61 @@
+%YAML 1.2
+---
+name: ssExcla
+fileTypes: []
+scope: source.ssExcla
+
+contexts:
+  # The prototype context is prepended to all contexts but those setting
+  # meta_include_prototype: false.
+  prototype:
+    - include: comments
+
+  main:
+    - include: numbers
+    - include: strings
+    # - include: budsym
+
+  numbers:
+    - match: '\b(-)?[0-9.]+\b'
+      scope: constant.numeric.ssExcla
+
+  strings:
+    - match: '"'
+      scope: punctuation.definition.string.begin.ssExcla
+      push: inside_string
+
+  inside_string:
+    - meta_include_prototype: false
+    - meta_scope: string.quoted.double.ssExcla
+    - match: '\.'
+      scope: constant.character.escape.ssExcla
+    - match: '"'
+      scope: punctuation.definition.string.end.ssExcla
+      pop: true
+
+  comments:
+    # Comments begin with a '//' and finish at the end of the line.
+    - match: '!'
+      scope: punctuation.definition.comment.ssExcla
+      push: 
+        - include: budsym
+        - meta_scope: comment.line.double-slash.ssExcla
+        - match: $\n?
+          pop: true
+
+  budsym-terminator:
+    - match: '[ ]*(!*)[ ]*($\n?)'
+      captures:
+        1: punctuation.definition.heading.end.markdown
+        2: meta.whitespace.newline.markdown
+      pop: true
+  budsym:
+    - meta_include_prototype: false
+    - match: ' >>'
+    # - match: '(>{1,6})(?!>)\s*(?=\S)'
+      captures:
+        1: punctuation.definition.heading.begin.markdown
+      push:
+        - meta_scope: markup.heading.markdown
+        - meta_content_scope: entity.name.section.markdown
+        - include: budsym-terminator
