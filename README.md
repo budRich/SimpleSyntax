@@ -10,6 +10,8 @@ Another feature of **SimpleSyntax** is the possibility to add symbols/sections i
 
 It is up to the user to enable the syntax, since many config files have the same name, but might have different comment types it is hard to do this *by filename*. Personally i use the package, [ApplySyntax](http://facelessuser.github.io/ApplySyntax/) with the following preferences:  
 
+If installed manually:
+
 ``` json
 "syntaxes": 
 [
@@ -27,6 +29,30 @@ It is up to the user to enable the syntax, since many config files have the same
   },
   {
     "syntax": "ssDslash/ssDslash",
+    "rules": [{"contains": "syntax:ssDslash"} ]
+  }
+]
+```
+
+If installed through package control:
+
+``` json
+"syntaxes": 
+[
+  {
+    "syntax": "SimpleSyntax/ssSemi",
+    "rules": [{"contains": "syntax:ssSemi"} ]
+  },
+  {
+    "syntax": "SimpleSyntax/ssExcla",
+    "rules": [{"contains": "syntax:ssExcla"} ]
+  },
+  {
+    "syntax": "SimpleSyntax/ssHash",
+    "rules": [{"contains": "syntax:ssHash"} ]
+  },
+  {
+    "syntax": "SimpleSyntax/ssDslash",
     "rules": [{"contains": "syntax:ssDslash"} ]
   }
 ]
